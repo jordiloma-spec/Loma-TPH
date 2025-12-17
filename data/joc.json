@@ -1,0 +1,582 @@
+{
+  "names": [
+    "David Garcia",
+    "Maribel",
+    "Pelfort",
+    "Donal Trump",
+    "Xavi Avila",
+    "Erika",
+    "Josep",
+    "Gerard",
+    "Julia",
+    "Adria",
+    "Raquel",
+    "Pushka",
+    "Loma",
+    "Aitana",
+    "Victor",
+    "Sandra",
+    "Luis",
+    "Sento",
+    "Helga",
+    "Claudia",
+    "Iaio",
+    "Iaia",
+    "Eva Sorroche",
+    "Maria Sorroche"
+  ],
+  "lyrics": [
+    {
+      "text": "Tu, persona humana",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "Donal Trump"
+      ]
+    },
+    {
+      "text": "Que fa temps que es pentina",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que és viva i respira",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Tu, que cada dia tens gana",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Jo, que sempre pixo alt",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que em dutxo a la dutxa",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que em mullo sota la pluja",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Jo, que t’espero anant anant",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Tu, que vas venir de lluny",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Xavi Avila",
+        "Gerard",
+        "Julia",
+        "Adria",
+        "Raquel",
+        "Aitana",
+        "Victor",
+        "Sandra",
+        "Helga",
+        "Claudia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Que tens accent del sud",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Xavi Avila",
+        "Raquel",
+        "Sandra",
+        "Helga",
+        "Claudia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Jo, que ensumo amb el nas",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Quin nas, Déu meu quin nas",
+      "type": "pista",
+      "who": "JO",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Xavi Avila",
+        "Erika",
+        "Josep",
+        "Gerard",
+        "Julia",
+        "Adria",
+        "Raquel",
+        "Loma",
+        "Aitana",
+        "Victor",
+        "Sandra",
+        "Helga",
+        "Claudia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Tu, que vas veure la llum Cap a mitjans de juny",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "David Garcia",
+        "Xavi Avila",
+        "Erika",
+        "Josep",
+        "Gerard",
+        "Julia",
+        "Adria",
+        "Raquel",
+        "Pushka",
+        "Aitana",
+        "Victor",
+        "Sandra",
+        "Sento",
+        "Helga",
+        "Claudia",
+        "Iaio",
+        "Iaia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Jo, que ensumo amb el nas",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Quin nas, Déu meu quin nas",
+      "type": "pista",
+      "who": "JO",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Xavi Avila",
+        "Erika",
+        "Josep",
+        "Gerard",
+        "Julia",
+        "Adria",
+        "Raquel",
+        "Loma",
+        "Aitana",
+        "Victor",
+        "Sandra",
+        "Helga",
+        "Claudia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Tu, que si et punxen, sagnes",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "La que surt cap a fora",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que quan fa fred, tremola",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Tu, que tens dues cames",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Jo, que cago ajupit",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que penso amb el cap",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que abraço abraçant",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Jo, amic dels meus amics",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Tu, que somrius quan rius",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que parles amb diminutius",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Xavi Avila",
+        "Raquel",
+        "Helga",
+        "Claudia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Jo, que m’emmirallo al mirall",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que vinc de l’Àfrica tropical",
+      "type": "pista",
+      "who": "JO",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Donal Trump",
+        "Xavi Avila",
+        "Erika",
+        "Josep",
+        "Gerard",
+        "Julia",
+        "Adria",
+        "Raquel",
+        "Loma",
+        "Aitana",
+        "Victor",
+        "Sandra",
+        "Helga",
+        "Claudia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Tu, que somrius quan rius",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que parles amb diminutius",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Xavi Avila",
+        "Raquel",
+        "Helga",
+        "Claudia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Jo, que vaig veure el sol Cap a principis de juliol",
+      "type": "pista",
+      "who": "JO",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Donal Trump",
+        "Xavi Avila",
+        "Erika",
+        "Josep",
+        "Julia",
+        "Adria",
+        "Raquel",
+        "Loma",
+        "Aitana",
+        "Sandra",
+        "Luis",
+        "Sento",
+        "Helga",
+        "Claudia",
+        "Iaio",
+        "Iaia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Tu, que puges amunt",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "I que baixes avall",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que esperes esperant",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Tu, que mires amb els ulls",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Jo, que avanço endavant",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que nedo nedant",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que volo volant",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Jo, que toco amb les mans",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Tu, persona humana",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "Donal Trump"
+      ]
+    },
+    {
+      "text": "Que et vesteixes pels peus",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Tens una piga a la cara Que sembla el Mickey Mouse",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Donal Trump",
+        "Xavi Avila",
+        "Erika",
+        "Josep",
+        "Gerard",
+        "Julia",
+        "Adria",
+        "Raquel",
+        "Pushka",
+        "Aitana",
+        "Victor",
+        "Sandra",
+        "Luis",
+        "Sento",
+        "Helga",
+        "Claudia",
+        "Iaio",
+        "Iaia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Jo, que callo en silenci",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que entro cap a dins",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que torno a repetir",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Jo, que segueixo Seguint",
+      "type": "pista",
+      "who": "JO",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Donal Trump",
+        "Xavi Avila",
+        "Erika",
+        "Josep",
+        "Raquel",
+        "Loma",
+        "Sandra",
+        "Helga",
+        "Iaia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Tu, persona humana",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "Donal Trump"
+      ]
+    },
+    {
+      "text": "Que et vesteixes pels peus",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Tens una piga a la cara Que sembla el Mickey Mouse",
+      "type": "pista",
+      "who": "TU",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Donal Trump",
+        "Xavi Avila",
+        "Erika",
+        "Josep",
+        "Gerard",
+        "Julia",
+        "Adria",
+        "Raquel",
+        "Pushka",
+        "Aitana",
+        "Victor",
+        "Sandra",
+        "Luis",
+        "Sento",
+        "Helga",
+        "Claudia",
+        "Iaio",
+        "Iaia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    },
+    {
+      "text": "Jo, que suo quan fa calor",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Que ploro de tristor",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Jo que t’estimo amb el cor",
+      "type": "generic",
+      "who": null,
+      "elimina": []
+    },
+    {
+      "text": "Jo, que t’estimo de tot cor",
+      "type": "pista",
+      "who": "JO",
+      "elimina": [
+        "David Garcia",
+        "Maribel",
+        "Pelfort",
+        "Donal Trump",
+        "Xavi Avila",
+        "Erika",
+        "Josep",
+        "Gerard",
+        "Julia",
+        "Adria",
+        "Raquel",
+        "Loma",
+        "Aitana",
+        "Victor",
+        "Sandra",
+        "Luis",
+        "Sento",
+        "Helga",
+        "Claudia",
+        "Iaio",
+        "Iaia",
+        "Eva Sorroche",
+        "Maria Sorroche"
+      ]
+    }
+  ]
+}

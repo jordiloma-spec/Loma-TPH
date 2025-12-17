@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+
+<html lang="ca">
+
+<head>
+
+	<meta charset="UTF-8" />
+	
+<title>Tu / Jo – Joc deductiu</title>
+	
+<link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+
+
+<!-- PANTALLA INICIAL -->
+
+<div id="start-screen" class="screen active">
+
+	<img src="assets/inicial.png" class="full-img" />
+	
+<div class="overlay-text">
+		
+<h1>Preparada per posar llum a la foscor?</h1>
+
+		<p>Escull només les frases que són pistes verdaderes!!</p>
+		
+<button onclick="startGame()">Començar</button>
+	
+</div>
+
+</div>
+
+
+
+
+<!-- JOC -->
+
+<div id="game-screen" class="screen">
+	
+<div class="layout">
+		
+<div class="video">
+
+		<video id="video" src="assets/video.mp4"></video>
+		
+<button onclick="togglePlay()">▶ / ⏸</button>
+
+	</div>
+
+	
+
+
+<div class="lyrics" id="lyrics"></div>
+
+	
+
+
+<div class="names">
+		
+<h3>TU</h3>
+		
+<div id="tu-names" class="cloud"></div>
+		
+<h3>JO</h3>
+		
+<div id="jo-names" class="cloud"></div>
+	
+</div>
+
+</div>
+
+</div>
+
+
+
+
+<!-- FINAL -->
+
+<div id="end-screen" class="screen">
+	
+<img src="assets/final.png" class="full-img" />
+	
+<div class="overlay-text" id="end-text"></div>
+	
+<button onclick="restart()">Tornar a jugar</button>
+
+</div>
+
+
+
+
+<script src="game.js"></script>
+
+</body>
+
+</html>
