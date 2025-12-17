@@ -9,13 +9,17 @@ let tuNames = [];
 let joNames = [];
 let history = [];
 
-// Carrega el JSON quan el DOM està a punt
+// --- INICIALITZACIÓ DEL DOM I DEL VÍDEO ---
 document.addEventListener("DOMContentLoaded", () => {
   video = document.getElementById("video");
   lyricsDiv = document.getElementById("lyrics");
   tuDiv = document.getElementById("tu-names");
   joDiv = document.getElementById("jo-names");
 
+  // Quan acabi el vídeo, passem a la pantalla final
+  video.onended = onVideoEnd;
+
+  // Carreguem el JSON del joc
   fetch("data/joc.json")
     .then(res => {
       if (!res.ok) {
@@ -33,33 +37,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// --- INICIALITZACIÓ DEL JOC ---
 function inicialitzaJoc() {
-  // Inicialitza els noms dels núvols
   tuNames = [...data.names];
   joNames = [...data.names];
-
   history = [];
 
   renderLyrics();
   renderNames();
 }
 
+// --- CONTROL DEL VÍDEO ---
 
-
-// --- CONTROL DE PANTALLES I VÍDEO ---
-
+// Botó ▶ Reproduir
 function playVideo() {
-    const v = document.getElementById("video");
-    v.play();
+  video.play();
 }
 
-function startGame() {
-  document.getElementById("start-screen").classList.remove("active");
-  document.getElementById("game-screen").classList.add("active");
-  // No fem autoplay. L’usuari haurà de prémer el botó ▶ Reproduir
-
-}
-
+// Botó ▶ / ⏸
 function togglePlay() {
   if (!video) return;
   if (video.paused) {
@@ -69,19 +64,21 @@ function togglePlay() {
   }
 }
 
-
+// --- CONTROL DE PANTALLES ---
+function startGame() {
+  document.getElementById("start-screen").classList.remove("active");
+  document.getElementById("game-screen").classList.add("active");
+  // IMPORTANT: NO autoplay aquí
+}
 
 // --- LLETRA I CLICS ---
-
 function renderLyrics() {
   lyricsDiv.innerHTML = "";
 
   data.lyrics.forEach((line, index) => {
     const div = document.createElement("div");
-    div.className = "lyric " + line.type; // "generic" o "pista"
+    div.className = "lyric " + line.type;
     div.textContent = line.text;
-
-    // Guardem la posició per si mai la necessitem
     div.dataset.index = index;
 
     div.onclick = () => onLyricClick(line, div);
@@ -90,24 +87,20 @@ function renderLyrics() {
 }
 
 function onLyricClick(line, element) {
-  // Si ja s'ha fet servir, no fem res
   if (element.classList.contains("used")) return;
 
   element.classList.add("used");
 
-  // Si la frase és genèrica, fem UNDO de l’últim filtratge
   if (line.type === "generic") {
     undo();
     return;
   }
 
-  // Guardem l'estat abans de filtrar (per poder tornar enrere)
   history.push({
     tu: [...tuNames],
     jo: [...joNames]
   });
 
-  // Frase de pista: elimina noms del núvol corresponent
   if (line.who === "TU") {
     tuNames = tuNames.filter(n => !line.elimina.includes(n));
   } else if (line.who === "JO") {
@@ -118,7 +111,6 @@ function onLyricClick(line, element) {
 }
 
 // --- UNDO ---
-
 function undo() {
   if (history.length === 0) return;
 
@@ -130,21 +122,12 @@ function undo() {
 }
 
 // --- NOMS ---
-
 function renderNames() {
   tuDiv.innerHTML = tuNames.map(n => `<span>${n}</span>`).join("");
   joDiv.innerHTML = joNames.map(n => `<span>${n}</span>`).join("");
 }
 
-// --- FINAL DEL VÍDEO I REINICI ---
-
-if (!video) {
-  // Si encara no s'ha definit (perquè el DOM no estava llest),
-  // el capturem a l'esdeveniment DOMContentLoaded (a dalt)
-} else {
-  video.onended = onVideoEnd;
-}
-
+// --- FINAL DEL VÍDEO ---
 function onVideoEnd() {
   document.getElementById("game-screen").classList.remove("active");
   document.getElementById("end-screen").classList.add("active");
@@ -164,19 +147,13 @@ function onVideoEnd() {
   }
 }
 
-// Ens assegurem de vincular onended quan el vídeo existeix
-document.addEventListener("DOMContentLoaded", () => {
-  const vid = document.getElementById("video");
-  if (vid) {
-    vid.onended = onVideoEnd;
-  }
-});
-
+// --- REINICI ---
 function restart() {
   location.reload();
 }
 
-// Exposem algunes funcions a l'àmbit global
+// Exposem funcions globals
 window.startGame = startGame;
 window.togglePlay = togglePlay;
+window.playVideo = playVideo;
 window.restart = restart;
