@@ -65,9 +65,23 @@ function togglePlay() {
 
 function activarSo() {
     const v = document.getElementById("video");
+
+    // Hack per iOS
     v.muted = false;
-    v.play();
+    v.currentTime = v.currentTime + 0.001;
+
+    const playPromise = v.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(() => {
+            // Si falla, tornem a intentar-ho després d’un petit delay
+            setTimeout(() => {
+                v.play();
+            }, 100);
+        });
+    }
 }
+
 
 // --- LLETRA I CLICS ---
 
