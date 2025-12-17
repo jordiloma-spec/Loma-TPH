@@ -44,10 +44,7 @@ function inicialitzaJoc() {
   renderNames();
 }
 
-function playVideo() {
-    const v = document.getElementById("video");
-    v.play();
-}
+
 
 // --- CONTROL DE PANTALLES I VÍDEO ---
 
@@ -59,9 +56,8 @@ function playVideo() {
 function startGame() {
   document.getElementById("start-screen").classList.remove("active");
   document.getElementById("game-screen").classList.add("active");
-  if (video) {
-    video.play();
-  }
+  // No fem autoplay. L’usuari haurà de prémer el botó ▶ Reproduir
+
 }
 
 function togglePlay() {
@@ -73,24 +69,6 @@ function togglePlay() {
   }
 }
 
-function activarSo() {
-    const v = document.getElementById("video");
-
-    // Hack per iOS
-    v.muted = false;
-    v.currentTime = v.currentTime + 0.001;
-
-    const playPromise = v.play();
-
-    if (playPromise !== undefined) {
-        playPromise.catch(() => {
-            // Si falla, tornem a intentar-ho després d’un petit delay
-            setTimeout(() => {
-                v.play();
-            }, 100);
-        });
-    }
-}
 
 
 // --- LLETRA I CLICS ---
