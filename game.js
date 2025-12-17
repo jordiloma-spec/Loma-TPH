@@ -51,6 +51,11 @@ function playVideo() {
 
 // --- CONTROL DE PANTALLES I VÍDEO ---
 
+function playVideo() {
+    const v = document.getElementById("video");
+    v.play();
+}
+
 function startGame() {
   document.getElementById("start-screen").classList.remove("active");
   document.getElementById("game-screen").classList.add("active");
