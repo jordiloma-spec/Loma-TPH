@@ -44,6 +44,11 @@ function inicialitzaJoc() {
   renderNames();
 }
 
+function playVideo() {
+    const v = document.getElementById("video");
+    v.play();
+}
+
 // --- CONTROL DE PANTALLES I VÍDEO ---
 
 function startGame() {
