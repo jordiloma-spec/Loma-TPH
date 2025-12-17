@@ -63,6 +63,12 @@ function togglePlay() {
   }
 }
 
+function activarSo() {
+    const v = document.getElementById("video");
+    v.muted = false;
+    v.play();
+}
+
 // --- LLETRA I CLICS ---
 
 function renderLyrics() {

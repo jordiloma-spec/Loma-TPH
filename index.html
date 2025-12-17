@@ -41,14 +41,21 @@
 <div id="game-screen" class="screen">
 	
 <div class="layout">
-		
-<div class="video">
+		<div class="video">
 
-		<video id="video" src="assets/video.mp4"></video>
-		
-<button onclick="togglePlay()">▶ / ⏸</button>
+    <video 
+        id="video" 
+        src="assets/video.mp4"
+        autoplay
+        muted
+        playsinline
+    ></video>
 
-	</div>
+    <button onclick="togglePlay()">▶ / ⏸</button>
+    <button onclick="activarSo()">🔊 Activar so</button>
+
+</div>
+
 
 	
 
