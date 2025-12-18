@@ -3,7 +3,7 @@
    - Opció 2: les línies no mostren si són pista fins que l'usuari fa clic
    - Historial per fer undo quan es clica una línia genèrica
    - Render de noms en núvols
-   - Scroll independent (gestió mínima des del JS: reset scroll a start)
+   - Scroll independent (reset scroll a start i a end)
    - Controls de vídeo: playVideo, togglePlay
    - Carrega de data/joc.json i inicialització
 */
@@ -213,6 +213,10 @@ function onVideoEnd() {
   const end = document.getElementById("end-screen");
   if (game) game.classList.remove("active");
   if (end) end.classList.add("active");
+
+  // Assegura que la pantalla final comenci a dalt (per poder veure el botó)
+  const endScreen = document.getElementById("end-screen");
+  if (endScreen) endScreen.scrollTop = 0;
 
   const endText = document.getElementById("end-text");
   if (!endText) return;

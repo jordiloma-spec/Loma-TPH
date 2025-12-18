@@ -1,4 +1,6 @@
-/* Global */
+/* style.css - versió actualitzada per resoldre problemes de layout i scroll */
+
+/* Variables i resets */
 :root{
   --bg:#0f0f10;
   --panel:#0b0b0c;
@@ -7,9 +9,8 @@
   --pill:#222;
   --glass: rgba(255,255,255,0.03);
 }
-
 *{box-sizing:border-box}
-html,body{height:100%}
+html,body{height:100%; margin:0; padding:0}
 body {
   margin: 0;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -23,11 +24,10 @@ body {
 .screen { display: none; position: relative; height: 100vh; width:100vw; overflow:hidden; }
 .screen.active { display: block; }
 
-.full-img { width: 100%; height: 100%; object-fit: cover; display:block; }
-
+/* Overlay text (start screen) - baixem una mica perquè no tapi la cara */
 .overlay-text {
   position: absolute;
-  top: 50%;
+  top: 60%; /* abans 50% -> ara 60% per baixar el text */
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -36,14 +36,17 @@ body {
   border-radius: 12px;
 }
 
-/* Layout: three columns (video | lyrics | names) */
+/* Layout: tres columnes (video | lyrics | names) */
 .layout {
   display: grid;
-  grid-template-columns: 1fr 1.2fr 320px; /* adjust as needed */
+  grid-template-columns: 1fr 1.2fr 320px;
   gap: 18px;
   align-items: start;
   padding: 18px;
-  height: calc(100vh - 40px); /* leave small margin for safety */
+  height: calc(100vh - 40px);
+  /* Permet scroll horitzontal si la pantalla és estreta, mantenint les 3 columnes visibles */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Video column */
@@ -54,6 +57,7 @@ body {
   align-items:center;
   justify-content:flex-start;
   padding:10px;
+  min-width: 260px; /* evita que el vídeo es faci massa petit */
 }
 video#video {
   width:100%;
@@ -85,14 +89,14 @@ button.secondary {
 button:hover{ transform:translateY(-3px) }
 button:active{ transform:translateY(0) }
 
-/* Lyrics column (center) - independent scroll */
+/* Lyrics column (center) */
 .lyrics {
-  overflow:auto;
   padding:12px;
   border-radius:8px;
   background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
-  height:100%;
+  min-width: 260px; /* evita tallar el text massa aviat */
+  /* IMPORTANT: no forcem overflow aquí per a mòbil; volem que la lletra es vegi sencera */
 }
 
 /* Each lyric line */
@@ -110,22 +114,16 @@ button:active{ transform:translateY(0) }
   background: var(--glass);
   transform: translateY(-2px);
 }
-
-/* When clicked (revealed) */
 .lyric.used {
   background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
   color: var(--accent);
   font-weight:700;
 }
-
-/* Additional marker for revealed pistas */
 .lyric.used.pista::after {
   content: " •";
   color: var(--accent);
   margin-left:6px;
 }
-
-/* Generic used (undo effect) */
 .lyric.used.generic {
   opacity: 0.7;
   text-decoration: line-through;
@@ -135,18 +133,21 @@ button:active{ transform:translateY(0) }
 
 /* Names column (right) - independent scroll */
 .names {
-  overflow:auto;
   padding:12px;
   border-radius:8px;
   background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
-  height:100%;
+  min-width: 220px;
+  max-width: 360px;
   display:flex;
   flex-direction:column;
   gap:12px;
+  /* Scroll vertical independent per la columna de noms */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* TU / JO headers sticky */
+/* TU / JO headers sticky dins la columna de noms */
 .names h3 {
   margin:0 0 8px 0;
   font-size:14px;
@@ -179,16 +180,40 @@ button:active{ transform:translateY(0) }
 }
 .cloud span:hover { transform: translateY(-4px) }
 
-/* Responsive adjustments */
-@media (max-width: 980px) {
-  .layout { grid-template-columns: 1fr; height: auto; padding:12px; }
-  .video, .lyrics, .names { width:100%; }
-  .names { order:3 }
-  .lyrics { order:2 }
-  .video { order:1 }
-  video#video { max-width:100%; }
+/* End screen: permetre scroll si el contingut no cap */
+#end-screen {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 18px;
 }
 
-/* Small helpers */
+/* Responsive adjustments */
+/* IMPORTANT: en comptes d'apilar les columnes en mòbil, permetem scroll horitzontal
+   per mantenir la mateixa disposició visual (video | lletra | noms) com abans. */
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr 1.2fr 320px;
+    gap: 12px;
+    padding: 12px;
+    height: calc(100vh - 20px);
+    overflow-x: auto; /* permet fer scroll horitzontal per veure les 3 columnes */
+  }
+
+  /* Reduïm mínims per adaptar-nos a pantalles petites */
+  .video, .lyrics, .names { min-width: 260px; }
+  video#video { max-width: 360px; }
+
+  /* Fem que la columna de noms tingui una alçada limitada perquè el scroll vertical funcioni bé */
+  .names {
+    max-height: calc(100vh - 140px); /* ajusta si tens capçalera o botons */
+  }
+
+  /* Assegura que la lletra no es talli: fem que el text flueixi i el contenidor s'adapti */
+  .lyrics { max-width: 420px; }
+}
+
+/* Helpers */
 .hidden { display:none !important; }
 .center { display:flex; align-items:center; justify-content:center; }
