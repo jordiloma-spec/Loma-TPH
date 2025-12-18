@@ -1,15 +1,26 @@
-﻿let data = null;
+﻿/* game.js - Versió completa per substituir l'antic fitxer
+   Implementa:
+   - Opció 2: les línies no mostren si són pista fins que l'usuari fa clic
+   - Historial per fer undo quan es clica una línia genèrica
+   - Render de noms en núvols
+   - Scroll independent (gestió mínima des del JS: reset scroll a start)
+   - Controls de vídeo: playVideo, togglePlay
+   - Carrega de data/joc.json i inicialització
+*/
 
-let video;
-let lyricsDiv;
-let tuDiv;
-let joDiv;
+/* ---------- Estat global ---------- */
+let data = null;
+
+let video = null;
+let lyricsDiv = null;
+let tuDiv = null;
+let joDiv = null;
 
 let tuNames = [];
 let joNames = [];
-let history = [];
+let historyStack = []; // per undo
 
-// --- INICIALITZACIÓ DEL DOM I DEL VÍDEO ---
+/* ---------- Inicialització DOM i càrrega JSON ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   video = document.getElementById("video");
   lyricsDiv = document.getElementById("lyrics");
@@ -17,7 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
   joDiv = document.getElementById("jo-names");
 
   // Quan acabi el vídeo, passem a la pantalla final
-  video.onended = onVideoEnd;
+  if (video) {
+    video.onended = onVideoEnd;
+  }
 
   // Carreguem el JSON del joc
   fetch("data/joc.json")
@@ -35,104 +48,174 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error carregant el joc:", err);
       alert("Hi ha hagut un problema carregant el joc. Revisa el fitxer joc.json.");
     });
+
+  // Exposem funcions globals per als botons inline
+  window.startGame = startGame;
+  window.playVideo = playVideo;
+  window.togglePlay = togglePlay;
+  window.restart = restart;
 });
 
-// --- INICIALITZACIÓ DEL JOC ---
+/* ---------- Inicialització del joc ---------- */
 function inicialitzaJoc() {
-  tuNames = [...data.names];
-  joNames = [...data.names];
-  history = [];
+  if (!data) return;
+
+  tuNames = Array.isArray(data.names) ? [...data.names] : [];
+  joNames = Array.isArray(data.names) ? [...data.names] : [];
+  historyStack = [];
 
   renderLyrics();
   renderNames();
+
+  // Assegura que els contenidors amb scroll comencin a dalt
+  if (lyricsDiv) lyricsDiv.scrollTop = 0;
+  const namesContainer = document.querySelector(".names");
+  if (namesContainer) namesContainer.scrollTop = 0;
 }
 
-// --- CONTROL DEL VÍDEO ---
+/* ---------- Render lletres (opció 2) ---------- */
+function renderLyrics() {
+  if (!lyricsDiv || !data || !Array.isArray(data.lyrics)) return;
+  lyricsDiv.innerHTML = "";
 
-// Botó ▶ Reproduir
+  data.lyrics.forEach((line, index) => {
+    const div = document.createElement("div");
+    div.className = "lyric"; // neutre; el tipus es guarda a data-type
+    div.dataset.type = line.type || "generic"; // "pista" o "generic"
+    div.dataset.index = index;
+    div.textContent = line.text || "";
+
+    div.addEventListener("click", () => onLyricClick(line, div));
+    lyricsDiv.appendChild(div);
+  });
+}
+
+/* ---------- Click sobre una línia ---------- */
+function onLyricClick(line, element) {
+  if (!element || element.classList.contains("used")) return;
+
+  // Marquem com usada (revelat)
+  element.classList.add("used");
+
+  // Si és pista, afegim classe extra per estil
+  if (line.type === "pista") {
+    element.classList.add("pista");
+  }
+
+  // Si és genèrica: fem undo (com a mecànica del joc)
+  if (line.type === "generic") {
+    element.classList.add("generic");
+    undo();
+    return;
+  }
+
+  // Guardem l'estat per poder revertir
+  historyStack.push({
+    tu: [...tuNames],
+    jo: [...joNames]
+  });
+
+  // Aplicar eliminacions segons qui (TU o JO)
+  if (line.who === "TU") {
+    if (Array.isArray(line.elimina) && line.elimina.length > 0) {
+      tuNames = tuNames.filter(n => !line.elimina.includes(n));
+    }
+  } else if (line.who === "JO") {
+    if (Array.isArray(line.elimina) && line.elimina.length > 0) {
+      joNames = joNames.filter(n => !line.elimina.includes(n));
+    }
+  }
+
+  renderNames();
+}
+
+/* ---------- Undo (revertir última acció) ---------- */
+function undo() {
+  if (historyStack.length === 0) return;
+  const last = historyStack.pop();
+  tuNames = Array.isArray(last.tu) ? last.tu : [];
+  joNames = Array.isArray(last.jo) ? last.jo : [];
+  renderNames();
+}
+
+/* ---------- Render noms en núvols ---------- */
+function renderNames() {
+  if (!tuDiv || !joDiv) return;
+
+  // TU
+  tuDiv.innerHTML = "";
+  const tuCloud = document.createElement("div");
+  tuCloud.className = "cloud";
+  tuNames.forEach(name => {
+    const span = document.createElement("span");
+    span.textContent = name;
+    tuCloud.appendChild(span);
+  });
+  tuDiv.appendChild(tuCloud);
+
+  // JO
+  joDiv.innerHTML = "";
+  const joCloud = document.createElement("div");
+  joCloud.className = "cloud";
+  joNames.forEach(name => {
+    const span = document.createElement("span");
+    span.textContent = name;
+    joCloud.appendChild(span);
+  });
+  joDiv.appendChild(joCloud);
+}
+
+/* ---------- Controls de vídeo ---------- */
 function playVideo() {
-  video.play();
+  if (!video) return;
+  const p = video.play();
+  if (p && p.then) {
+    p.catch(err => {
+      // Errors d'autoplay o permisos; només loguem
+      console.warn("Video play failed:", err);
+    });
+  }
 }
 
-// Botó ▶ / ⏸
 function togglePlay() {
   if (!video) return;
   if (video.paused) {
-    video.play();
+    playVideo();
   } else {
     video.pause();
   }
 }
 
-// --- CONTROL DE PANTALLES ---
+/* ---------- Pantalles i control del flux ---------- */
 function startGame() {
-  document.getElementById("start-screen").classList.remove("active");
-  document.getElementById("game-screen").classList.add("active");
-  // IMPORTANT: NO autoplay aquí
-}
+  const start = document.getElementById("start-screen");
+  const game = document.getElementById("game-screen");
+  if (start) start.classList.remove("active");
+  if (game) game.classList.add("active");
 
-// --- LLETRA I CLICS ---
-function renderLyrics() {
-  lyricsDiv.innerHTML = "";
-
-  data.lyrics.forEach((line, index) => {
-    const div = document.createElement("div");
-    div.className = "lyric " + line.type;
-    div.textContent = line.text;
-    div.dataset.index = index;
-
-    div.onclick = () => onLyricClick(line, div);
-    lyricsDiv.appendChild(div);
-  });
-}
-
-function onLyricClick(line, element) {
-  if (element.classList.contains("used")) return;
-
-  element.classList.add("used");
-
-  if (line.type === "generic") {
-    undo();
-    return;
-  }
-
-  history.push({
-    tu: [...tuNames],
-    jo: [...joNames]
-  });
-
-  if (line.who === "TU") {
-    tuNames = tuNames.filter(n => !line.elimina.includes(n));
-  } else if (line.who === "JO") {
-    joNames = joNames.filter(n => !line.elimina.includes(n));
-  }
+  // Reset estat del joc
+  tuNames = Array.isArray(data.names) ? [...data.names] : [];
+  joNames = Array.isArray(data.names) ? [...data.names] : [];
+  historyStack = [];
 
   renderNames();
+  renderLyrics();
+
+  // Scroll top per a columnes amb scroll
+  if (lyricsDiv) lyricsDiv.scrollTop = 0;
+  const namesContainer = document.querySelector(".names");
+  if (namesContainer) namesContainer.scrollTop = 0;
 }
 
-// --- UNDO ---
-function undo() {
-  if (history.length === 0) return;
-
-  const last = history.pop();
-  tuNames = last.tu;
-  joNames = last.jo;
-
-  renderNames();
-}
-
-// --- NOMS ---
-function renderNames() {
-  tuDiv.innerHTML = tuNames.map(n => `<span>${n}</span>`).join("");
-  joDiv.innerHTML = joNames.map(n => `<span>${n}</span>`).join("");
-}
-
-// --- FINAL DEL VÍDEO ---
+/* ---------- Quan el vídeo acaba ---------- */
 function onVideoEnd() {
-  document.getElementById("game-screen").classList.remove("active");
-  document.getElementById("end-screen").classList.add("active");
+  const game = document.getElementById("game-screen");
+  const end = document.getElementById("end-screen");
+  if (game) game.classList.remove("active");
+  if (end) end.classList.add("active");
 
   const endText = document.getElementById("end-text");
+  if (!endText) return;
 
   if (
     tuNames.length === 1 &&
@@ -147,13 +230,16 @@ function onVideoEnd() {
   }
 }
 
-// --- REINICI ---
+/* ---------- Reinici ---------- */
 function restart() {
+  // Reinici senzill: recarrega la pàgina per assegurar estat net
   location.reload();
 }
 
-// Exposem funcions globals
-window.startGame = startGame;
-window.togglePlay = togglePlay;
-window.playVideo = playVideo;
-window.restart = restart;
+/* ---------- Export per debug ---------- */
+window._gameDebug = {
+  renderLyrics,
+  renderNames,
+  undo,
+  getState: () => ({ tuNames, joNames, historyStack, data })
+};

@@ -1,23 +1,194 @@
-body { margin: 0; font-family: sans-serif; background: #111; color: #fff; }
+/* Global */
+:root{
+  --bg:#0f0f10;
+  --panel:#0b0b0c;
+  --muted:#cfcfcf;
+  --accent:#ffd166;
+  --pill:#222;
+  --glass: rgba(255,255,255,0.03);
+}
 
-.screen { display: none; position: relative; height: 100vh; }
+*{box-sizing:border-box}
+html,body{height:100%}
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #fff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
 
+/* Screens */
+.screen { display: none; position: relative; height: 100vh; width:100vw; overflow:hidden; }
 .screen.active { display: block; }
 
-.full-img { width: 100%; height: 100%; object-fit: cover; }
+.full-img { width: 100%; height: 100%; object-fit: cover; display:block; }
 
-.overlay-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.6); padding: 20px; }
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+  border-radius: 12px;
+}
 
-.layout { display: flex; height: 100%; }
+/* Layout: three columns (video | lyrics | names) */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 320px; /* adjust as needed */
+  gap: 18px;
+  align-items: start;
+  padding: 18px;
+  height: calc(100vh - 40px); /* leave small margin for safety */
+}
 
-.video { width: 50%; padding: 10px; }
+/* Video column */
+.video {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:center;
+  justify-content:flex-start;
+  padding:10px;
+}
+video#video {
+  width:100%;
+  max-width:720px;
+  border-radius:12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  background:#000;
+}
 
-.lyrics { width: 25%; overflow-y: auto; padding: 10px; }
+/* Buttons */
+button {
+  background: linear-gradient(135deg,#ff7a59,#ff3d6e);
+  color:#fff;
+  border:0;
+  padding:10px 14px;
+  border-radius:10px;
+  font-weight:700;
+  box-shadow:0 6px 18px rgba(0,0,0,0.18);
+  transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+  cursor:pointer;
+}
+button.secondary {
+  background:transparent;
+  color:#fff;
+  border:2px solid rgba(255,255,255,0.06);
+  padding:8px 12px;
+  border-radius:10px;
+}
+button:hover{ transform:translateY(-3px) }
+button:active{ transform:translateY(0) }
 
-.names { width: 25%; padding: 10px; }
+/* Lyrics column (center) - independent scroll */
+.lyrics {
+  overflow:auto;
+  padding:12px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+  height:100%;
+}
 
-.cloud span { display: inline-block; margin: 4px; padding: 4px 8px; background: #333; border-radius: 8px; }
+/* Each lyric line */
+.lyric {
+  color: var(--muted);
+  background: transparent;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background .12s ease, color .12s ease, transform .12s ease, opacity .12s ease;
+  cursor: pointer;
+  margin-bottom:8px;
+  user-select: none;
+}
+.lyric:hover {
+  background: var(--glass);
+  transform: translateY(-2px);
+}
 
-.lyric { cursor: pointer; margin-bottom: 6px; }
+/* When clicked (revealed) */
+.lyric.used {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  color: var(--accent);
+  font-weight:700;
+}
 
-.lyric.generic { opacity: 0.6; }
+/* Additional marker for revealed pistas */
+.lyric.used.pista::after {
+  content: " •";
+  color: var(--accent);
+  margin-left:6px;
+}
+
+/* Generic used (undo effect) */
+.lyric.used.generic {
+  opacity: 0.7;
+  text-decoration: line-through;
+  color: #bdbdbd;
+  font-weight:600;
+}
+
+/* Names column (right) - independent scroll */
+.names {
+  overflow:auto;
+  padding:12px;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* TU / JO headers sticky */
+.names h3 {
+  margin:0 0 8px 0;
+  font-size:14px;
+  letter-spacing:0.6px;
+  color:#ddd;
+  position:sticky;
+  top:0;
+  background:transparent;
+  padding-bottom:6px;
+}
+
+/* Cloud container */
+.cloud {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+/* Name pills */
+.cloud span {
+  display:inline-block;
+  margin: 4px;
+  padding: 6px 10px;
+  background: var(--pill);
+  border-radius: 999px;
+  color:#fff;
+  font-weight:600;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  transition: transform .12s ease, opacity .12s ease;
+}
+.cloud span:hover { transform: translateY(-4px) }
+
+/* Responsive adjustments */
+@media (max-width: 980px) {
+  .layout { grid-template-columns: 1fr; height: auto; padding:12px; }
+  .video, .lyrics, .names { width:100%; }
+  .names { order:3 }
+  .lyrics { order:2 }
+  .video { order:1 }
+  video#video { max-width:100%; }
+}
+
+/* Small helpers */
+.hidden { display:none !important; }
+.center { display:flex; align-items:center; justify-content:center; }
