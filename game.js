@@ -57,6 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
   tuDiv = document.getElementById("tu-names");
   joDiv = document.getElementById("jo-names");
 
+  // Permetre scroll global mentre estem a la pantalla d'inici
+  document.documentElement.style.overflow = 'auto';
+  document.body.style.overflow = 'auto';
+
   // Activem el bloqueig tàctil per la columna de lletra
   enableLyricsTouchLock();
 
@@ -226,6 +230,10 @@ function startGame() {
   if (start) start.classList.remove("active");
   if (game) game.classList.add("active");
 
+  // Un cop comença el joc, bloquegem el scroll global perquè les columnes gestionin el seu propi scroll
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+
   // Reset estat del joc
   tuNames = Array.isArray(data.names) ? [...data.names] : [];
   joNames = Array.isArray(data.names) ? [...data.names] : [];
@@ -244,6 +252,11 @@ function startGame() {
 function onVideoEnd() {
   const game = document.getElementById("game-screen");
   const end = document.getElementById("end-screen");
+
+  // Permetre scroll global a la pantalla final
+  document.documentElement.style.overflow = 'auto';
+  document.body.style.overflow = 'auto';
+
   if (game) game.classList.remove("active");
   if (end) end.classList.add("active");
 

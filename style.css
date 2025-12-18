@@ -270,3 +270,43 @@ button:active{ transform:translateY(0) }
 /* Helpers */
 .hidden { display:none !important; }
 .center { display:flex; align-items:center; justify-content:center; }
+
+/* --- Ajust per fer la pantalla inicial scrollable i que el botó sigui visible --- */
+
+/* Permetre que la pantalla d'inici faci scroll intern (sense tocar el body global) */
+#start-screen {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Fer que la imatge d'inici es mostri sencera però permeti scroll si és més alta */
+#start-screen .full-img {
+  display: block;
+  width: 100%;
+  height: auto;        /* important: no 100vh aquí per permetre scroll si cal */
+  max-height: none;
+  object-fit: contain;
+  object-position: center top;
+}
+
+/* Mouem l'overlay una mica més avall i fem el text més petit per mòbil i PC */
+#start-screen .overlay-text {
+  top: 78%;            /* més avall perquè no tapi la cara */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px;
+  font-size: 0.95rem;
+  max-width: 88%;
+  z-index: 5;
+}
+
+/* En pantalles petites, reduir encara més i assegurar espai per tocar el botó */
+@media (max-width: 480px) {
+  #start-screen .overlay-text {
+    top: 82%;
+    font-size: 0.92rem;
+    padding: 10px;
+  }
+}
