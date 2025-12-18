@@ -10,9 +10,16 @@
   --glass: rgba(255,255,255,0.03);
 }
 *{box-sizing:border-box}
-html,body{height:100%; margin:0; padding:0}
+
+/* Base: ocupar tota la pantalla i evitar scroll global (important per mòbil) */
+html,body{
+  height:100%;
+  margin:0;
+  padding:0;
+  overflow: hidden; /* evita que la pàgina sencera faci scroll al mòbil */
+}
+
 body {
-  margin: 0;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   background: var(--bg);
   color: #fff;
@@ -96,7 +103,11 @@ button:active{ transform:translateY(0) }
   background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
   min-width: 260px; /* evita tallar el text massa aviat */
-  /* IMPORTANT: no forcem overflow aquí per a mòbil; volem que la lletra es vegi sencera */
+  /* Ara la columna central controla el seu propi scroll */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain; /* evita que el scroll es propagui al body */
+  min-width: 0; /* important per evitar overflow horitzontal en grid */
 }
 
 /* Each lyric line */
@@ -145,6 +156,7 @@ button:active{ transform:translateY(0) }
   /* Scroll vertical independent per la columna de noms */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 /* TU / JO headers sticky dins la columna de noms */

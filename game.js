@@ -20,12 +20,45 @@ let tuNames = [];
 let joNames = [];
 let historyStack = []; // per undo
 
+/* ---------- Evitar que el touch dins #lyrics faci moure la pàgina (iOS / mòbil) ---------- */
+function enableLyricsTouchLock() {
+  const el = document.getElementById('lyrics');
+  if (!el) return;
+
+  let startY = 0;
+
+  el.addEventListener('touchstart', function(e) {
+    if (e.touches && e.touches.length === 1) {
+      startY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  el.addEventListener('touchmove', function(e) {
+    if (!e.touches || e.touches.length !== 1) return;
+    const currentY = e.touches[0].clientY;
+    const atTop = el.scrollTop === 0;
+    const atBottom = Math.ceil(el.scrollTop + el.clientHeight) >= el.scrollHeight;
+    const isScrollingUp = currentY > startY;
+    const isScrollingDown = currentY < startY;
+
+    // Si estem al límit i intenten seguir fent scroll cap a fora, prevenir la propagació
+    if ((atTop && isScrollingUp) || (atBottom && isScrollingDown)) {
+      e.preventDefault();
+    }
+
+    startY = currentY;
+  }, { passive: false });
+}
+
 /* ---------- Inicialització DOM i càrrega JSON ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   video = document.getElementById("video");
   lyricsDiv = document.getElementById("lyrics");
   tuDiv = document.getElementById("tu-names");
   joDiv = document.getElementById("jo-names");
+
+  // Activem el bloqueig tàctil per la columna de lletra
+  enableLyricsTouchLock();
 
   // Quan acabi el vídeo, passem a la pantalla final
   if (video) {
