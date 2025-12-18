@@ -273,6 +273,60 @@ function restart() {
   location.reload();
 }
 
+/* ---------- Permetre scroll global quan es fa scroll sobre la columna .video ---------- */
+(function enableVideoGlobalScroll() {
+  const videoCol = document.querySelector('.video');
+  if (!videoCol) return;
+
+  let restoreTimer = null;
+
+  function enableBodyScrollTemporarily() {
+    // Activa scroll global temporalment
+    document.documentElement.style.overflow = 'auto';
+    document.body.style.overflow = 'auto';
+    // Restablir després d'un curt període sense interacció
+    if (restoreTimer) clearTimeout(restoreTimer);
+    restoreTimer = setTimeout(() => {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }, 300); // 300ms després de l'últim esdeveniment
+  }
+
+  // Roda del ratolí (PC)
+  videoCol.addEventListener('wheel', (e) => {
+    // Si la roda mou verticalment, volem que la pàgina global es desplaci
+    if (Math.abs(e.deltaY) > 0) {
+      // Evitem que el comportament intern del contenidor interfereixi
+      e.preventDefault();
+      enableBodyScrollTemporarily();
+      // Fem el scroll global manualment segons delta
+      window.scrollBy({ top: e.deltaY, left: 0, behavior: 'auto' });
+    }
+  }, { passive: false });
+
+  // Touch (mòbil): calculem el delta i fem scroll global
+  let touchStartY = null;
+  videoCol.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches.length === 1) {
+      touchStartY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  videoCol.addEventListener('touchmove', (e) => {
+    if (!e.touches || e.touches.length !== 1 || touchStartY === null) return;
+    const currentY = e.touches[0].clientY;
+    const delta = touchStartY - currentY;
+    if (Math.abs(delta) > 2) {
+      // Evitem que el contenidor local intenti gestionar el touch
+      e.preventDefault();
+      enableBodyScrollTemporarily();
+      window.scrollBy({ top: delta, left: 0, behavior: 'auto' });
+      touchStartY = currentY;
+    }
+  }, { passive: false });
+
+})();
+
 /* ---------- Export per debug ---------- */
 window._gameDebug = {
   renderLyrics,
