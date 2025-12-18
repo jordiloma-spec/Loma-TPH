@@ -108,6 +108,10 @@ function inicialitzaJoc() {
   if (lyricsDiv) lyricsDiv.scrollTop = 0;
   const namesContainer = document.querySelector(".names");
   if (namesContainer) namesContainer.scrollTop = 0;
+
+  // Assegura que la columna del vídeo comenci a dalt (evita que el vídeo aparegui tallat)
+  const videoContainer = document.querySelector('.video');
+  if (videoContainer) videoContainer.scrollTop = 0;
 }
 
 /* ---------- Render lletres (opció 2) ---------- */
@@ -246,6 +250,10 @@ function startGame() {
   if (lyricsDiv) lyricsDiv.scrollTop = 0;
   const namesContainer = document.querySelector(".names");
   if (namesContainer) namesContainer.scrollTop = 0;
+
+  // Assegura que la columna del vídeo comenci a dalt (evita que el vídeo aparegui tallat)
+  const videoContainer = document.querySelector('.video');
+  if (videoContainer) videoContainer.scrollTop = 0;
 }
 
 /* ---------- Quan el vídeo acaba ---------- */
