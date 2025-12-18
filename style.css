@@ -272,3 +272,32 @@ button:active{ transform:translateY(0) }
 /* Helpers */
 .hidden { display:none !important; }
 .center { display:flex; align-items:center; justify-content:center; }
+/* --- Ajust final: assegurar accessibilitat del botó i espai inferior a end-screen --- */
+#end-screen {
+  padding: 18px 18px 96px 18px; /* més espai inferior perquè el botó sigui tocable en mòbil vertical */
+  box-sizing: border-box;
+}
+
+/* Assegura que el botó de tornar a jugar no quedi enganxat al marge inferior */
+#end-screen > button {
+  position: relative;
+  z-index: 3;
+  margin: 18px auto 24px auto;
+  padding: 12px 18px;
+  touch-action: manipulation;
+}
+
+/* Si l'overlay ocupa molt espai, reduïm la seva alçada màxima per evitar tapar el botó */
+#end-screen .overlay-text {
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 12px;
+}
+
+/* Petits ajusts per iPhones amb notch (safe area) */
+@supports(padding: max(0px)) {
+  #end-screen {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 56px);
+  }
+}

@@ -111,7 +111,14 @@ function inicialitzaJoc() {
 
   // Assegura que la columna del vídeo comenci a dalt (evita que el vídeo aparegui tallat)
   const videoContainer = document.querySelector('.video');
-  if (videoContainer) videoContainer.scrollTop = 0;
+  if (videoContainer) {
+    // fem-ho en el proper frame per assegurar que el layout ja està calculat
+    requestAnimationFrame(() => {
+      videoContainer.scrollTop = 0;
+      // un petit timeout addicional per dispositius iOS que necessiten reflow
+      setTimeout(() => { videoContainer.scrollTop = 0; }, 50);
+    });
+  }
 }
 
 /* ---------- Render lletres (opció 2) ---------- */
@@ -253,7 +260,12 @@ function startGame() {
 
   // Assegura que la columna del vídeo comenci a dalt (evita que el vídeo aparegui tallat)
   const videoContainer = document.querySelector('.video');
-  if (videoContainer) videoContainer.scrollTop = 0;
+  if (videoContainer) {
+    requestAnimationFrame(() => {
+      videoContainer.scrollTop = 0;
+      setTimeout(() => { videoContainer.scrollTop = 0; }, 50);
+    });
+  }
 }
 
 /* ---------- Quan el vídeo acaba ---------- */
@@ -320,8 +332,10 @@ function restart() {
       // Evitem que el comportament intern del contenidor interfereixi
       e.preventDefault();
       enableBodyScrollTemporarily();
-      // Fem el scroll global manualment segons delta
-      window.scrollBy({ top: e.deltaY, left: 0, behavior: 'auto' });
+      // Esperem un frame perquè Safari re-pinte i accepti el scroll global
+      requestAnimationFrame(() => {
+        window.scrollBy({ top: e.deltaY, left: 0, behavior: 'auto' });
+      });
     }
   }, { passive: false });
 
@@ -341,7 +355,10 @@ function restart() {
       // Evitem que el contenidor local intenti gestionar el touch
       e.preventDefault();
       enableBodyScrollTemporarily();
-      window.scrollBy({ top: delta, left: 0, behavior: 'auto' });
+      // Esperem un frame perquè Safari re-pinte i accepti el scroll global
+      requestAnimationFrame(() => {
+        window.scrollBy({ top: delta, left: 0, behavior: 'auto' });
+      });
       touchStartY = currentY;
     }
   }, { passive: false });
