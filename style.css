@@ -31,6 +31,15 @@ body {
 .screen { display: none; position: relative; height: 100vh; width:100vw; overflow:hidden; }
 .screen.active { display: block; }
 
+/* Full images (start / end) - mostrar la imatge sencera i centrada */
+.full-img {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  object-fit: contain; /* mostra la imatge sencera, centrada, sense tallar la cara */
+  object-position: center center;
+}
+
 /* Overlay text (start screen) - baixem una mica perquè no tapi la cara */
 .overlay-text {
   position: absolute;
@@ -41,6 +50,8 @@ body {
   background: rgba(0,0,0,0.6);
   padding: 20px;
   border-radius: 12px;
+  max-width: 90%;
+  box-sizing: border-box;
 }
 
 /* Layout: tres columnes (video | lyrics | names) */
@@ -50,10 +61,18 @@ body {
   gap: 18px;
   align-items: start;
   padding: 18px;
-  height: calc(100vh - 40px);
-  /* Permet scroll horitzontal si la pantalla és estreta, mantenint les 3 columnes visibles */
-  overflow-x: auto;
+  height: 100vh; /* força alçada completa perquè les columnes puguin tenir scroll intern */
+  overflow-x: auto; /* Permet scroll horitzontal si la pantalla és estreta */
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y; /* permet pan horitzontal i vertical en mòbil */
+  box-sizing: border-box;
+}
+
+/* Forcem que cada columna ocupi l'altura del layout (perquè overflow funcioni) */
+.video, .lyrics, .names {
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* Video column */
@@ -108,6 +127,7 @@ button:active{ transform:translateY(0) }
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain; /* evita que el scroll es propagui al body */
   min-width: 0; /* important per evitar overflow horitzontal en grid */
+  padding-bottom: 32px; /* espai inferior perquè l'última línia no quedi enganxada al marge */
 }
 
 /* Each lyric line */
@@ -192,13 +212,20 @@ button:active{ transform:translateY(0) }
 }
 .cloud span:hover { transform: translateY(-4px) }
 
-/* End screen: permetre scroll si el contingut no cap */
+/* End screen: permetre scroll si el contingut no cap i centrar overlay */
 #end-screen {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   height: 100vh;
   box-sizing: border-box;
   padding: 18px;
+}
+#end-screen .overlay-text {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  padding-bottom: 48px; /* evita que el botó quedi enganxat al marge inferior en mòbil */
 }
 
 /* Responsive adjustments */
@@ -223,7 +250,7 @@ button:active{ transform:translateY(0) }
   }
 
   /* Assegura que la lletra no es talli: fem que el text flueixi i el contenidor s'adapti */
-  .lyrics { max-width: 420px; }
+  .lyrics { max-width: 420px; padding-bottom: 48px; }
 }
 
 /* Helpers */
