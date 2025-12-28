@@ -245,6 +245,13 @@ function startGame() {
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
 
+ // --- NUEVO: Forzar recalculo para móviles ---
+  window.scrollTo(0, 0);
+  setTimeout(() => {
+    window.dispatchEvent(new Event('resize'));
+  }, 150);
+  // ------------------------------------------
+
   // Reset estat del joc
   tuNames = Array.isArray(data.names) ? [...data.names] : [];
   joNames = Array.isArray(data.names) ? [...data.names] : [];
